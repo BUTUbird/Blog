@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Blog
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: defaultDataSource
+    password: root
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
+    username: root
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+
+
+server:
+  port: 8080
+
+bird:
+  jwt:
+    #token有效时长，7天，单位秒
+    expire: 604800
+    header: Authorization
+    #加密密钥
+    secret: f4e2e52034348f86b67vfr581v0f9eb5
