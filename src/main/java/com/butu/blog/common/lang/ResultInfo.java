@@ -10,7 +10,7 @@ public enum ResultInfo {
      */
     NOT_FOUND("404","没有找到"),
     SUCCESS("200","操作成功"),
-    GLOBAL_ERROR("101","系统繁忙");
+    GLOBAL_ERROR("401","系统繁忙");
     private String code;
     private String message;
 

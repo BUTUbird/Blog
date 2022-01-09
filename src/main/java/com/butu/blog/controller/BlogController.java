@@ -35,13 +35,13 @@ public class BlogController {
     public Result list(@RequestParam(defaultValue = "1")Integer currentPage){
         Page page = new Page(currentPage,5);
         Page pageDate = blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
-        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("PageData", pageDate);
+        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("msg", pageDate);
     }
     @GetMapping("/blog/{id}")
     public Result detail(@PathVariable(name = "id") Long id){
         Blog blog = blogService.getById(id);
         Assert.notNull(blog, "该博客已被删除");
-        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("blogData", blog);
+        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("msg", blog);
     }
     @RequiresAuthentication
     @PostMapping("/blog/edit")
@@ -59,6 +59,7 @@ public class BlogController {
         }
         BeanUtil.copyProperties(blog,temp, "id","userId","created","status");
         blogService.saveOrUpdate(temp);
-        return Result.success().data("", "");
+        return Result.success().codeAndMessage(ResultInfo.SUCCESS);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.butu.blog.controller;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.butu.blog.common.dto.LoginDto;
@@ -36,7 +37,7 @@ public class AccountController {
         Assert.notNull(user,"用户不存在");
 
         if(!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))){
-            return Result.error().codeAndMessage(ResultInfo.GLOBAL_ERROR).data("login_error", "密码不正确");
+            return Result.error().codeAndMessage(ResultInfo.GLOBAL_ERROR).data("msg", "密码不正确");
         }
 
         String jwt = jwtUtils.generateToken(user.getId());
@@ -44,12 +45,18 @@ public class AccountController {
 
         response.setHeader("Authorization",jwt);
         response.setHeader("Access-control-Expose-Headers","Authorization" );
-        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("id", user.getId()+":"+user.getUsername());
+        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("msg", MapUtil.builder()
+                .put("id", user.getId())
+                .put("username", user.getUsername())
+                .put("avatar", user.getAvatar())
+                .put("email", user.getEmail())
+                .map());
     }
     @RequiresAuthentication
     @GetMapping("/logout")
     public Result logout(){
         SecurityUtils.getSubject().logout();
-        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("success", "退出成功" );
+        System.out.println(SecurityUtils.getSubject());
+        return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("msg", "退出成功" );
     }
 }

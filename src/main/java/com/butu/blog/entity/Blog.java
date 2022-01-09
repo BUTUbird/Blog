@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +48,7 @@ public class Blog implements Serializable {
     @TableField("content")
     private String content;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @TableField("created")
     private LocalDateTime created;
 
